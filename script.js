@@ -2,7 +2,7 @@ var canvas;
 var canvasContext;
 
 var ballX = 10;
-var ballY = 10;
+var ballY = 100;
 
 var ballSpeedX = 10;
 
@@ -32,13 +32,26 @@ function moveEverything() {
 function drawEverthing(){
 	// drawing playground
 	colorRect(0,0,canvas.width, canvas.height, 'black');
+	
 	// drawing ball
-	colorRect(ballX, ballY, 10, 10, 'red');
-	//drawing left paddle
+	// originaly the ball was square -> colorRect(ballX, ballY, 10, 10, 'red');
+	
+	// drawing left paddle
 	colorRect(0,210, 10, 100, 'white');
 
-}
+	// drawind the ball
+	colorCircle(ballX, ballY, 10, 'red');
 
+}
+//
+function colorCircle(centerX, centerY, radius, drawColor) {
+	canvasContext.fillStyle = drawColor;
+	canvasContext.beginPath();
+	canvasContext.arc( centerX, centerY, radius, 0, Math.PI*2, true); // description of arguments (X-ball position, Y-ball position, radius, startof arc in radians, end of arc in radians, direction of drawing arc - clockwise or reverse)
+	canvasContext.fill();
+	canvasContext.closePath();
+
+}
 
 // function which allows to use just one command in draw everything for creating each rectangle
 function colorRect(leftX, topY, width, height, drawColor) {
