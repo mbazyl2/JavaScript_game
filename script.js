@@ -8,15 +8,25 @@ window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
 	canvasContext = canvas.getContext('2d');
 
-	setInterval(drawEverthing, 100);
+	var framesPerSecond = 30;
+	
+	setInterval( function() {
+		moveEverything();
+		drawEverthing();
+	}, 1000/framesPerSecond);
 
 }
 
-function drawEverthing() {
-	console.log("ballX value: "+ballX);
-	if (ballX < 800) {
+
+function moveEverything() {
+	if (ballX < 790) {
 	ballX += 5;
 	}
+}
+
+function drawEverthing() {
+	// console.log("ballX value: "+ballX);
+
 
 	canvasContext.fillStyle = 'black';
 	canvasContext.fillRect(0,0,canvas.width, canvas.height);
@@ -25,5 +35,5 @@ function drawEverthing() {
 	canvasContext.fillRect( ballX, ballY, 10, 10);
 	
 	canvasContext.fillStyle = 'white';
-	canvasContext.fillRect(300,200, 200, 200);
+	canvasContext.fillRect(0,210, 10, 100);
 }
