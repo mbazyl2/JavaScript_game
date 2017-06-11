@@ -2,9 +2,26 @@ var canvas;
 var canvasContext;
 
 var ballX = 10;
-var ballY = 100;
+var ballY = 10;
 
 var ballSpeedX = 10;
+var ballSpeedY = 4;
+
+var paddle1Y = 250;
+const PADDLE_HEIGHT = 100;
+
+function calculateMousePosition(evt) { 		 //evt as event
+	var rect = canvas.getBoundingClientRect();
+	var root = document.documentElement;
+	var mouseX = evt.clientX - rect.left - root.scrollLeft;
+	var mouseY = evt.clientY - rect.top - root.scrollTop;
+	return {	
+		x:mouseX,
+		y:mouseY
+		// returns object
+	};
+}
+
 
 window.onload = function() {
 	console.log("Hey");
@@ -18,14 +35,24 @@ window.onload = function() {
 		drawEverthing();
 	}, 1000/framesPerSecond);
 
+	canvas.addEventListener('mousemove', function(evt) {
+		var mousePosition = calculateMousePosition(evt);
+		paddle1Y = mousePosition.y - (PADDLE_HEIGHT/2);
+	});
+
 }
 
 
 function moveEverything() {
 	
 	ballX += ballSpeedX;
+	ballY += ballSpeedY;
+
 	if (ballX > canvas.width || ballX < 0) {
 		ballSpeedX = -ballSpeedX;
+	}
+	if (ballY > canvas.height || ballY < 0) {
+		ballSpeedY = -ballSpeedY;
 	}
 }
 
@@ -37,7 +64,7 @@ function drawEverthing(){
 	// originaly the ball was square -> colorRect(ballX, ballY, 10, 10, 'red');
 	
 	// drawing left paddle
-	colorRect(0,210, 10, 100, 'white');
+	colorRect(0,paddle1Y, 10, PADDLE_HEIGHT, 'white');
 
 	// drawind the ball
 	colorCircle(ballX, ballY, 10, 'red');
