@@ -8,7 +8,9 @@ var ballSpeedX = 10;
 var ballSpeedY = 4;
 
 var paddle1Y = 250;
+var paddle2Y = 250;
 const PADDLE_HEIGHT = 100;
+const PADDLE_THICKNESS = 10;
 
 function calculateMousePosition(evt) { 		 //evt as event
 	var rect = canvas.getBoundingClientRect();
@@ -37,21 +39,42 @@ window.onload = function() {
 
 	canvas.addEventListener('mousemove', function(evt) {
 		var mousePosition = calculateMousePosition(evt);
-		paddle1Y = mousePosition.y - (PADDLE_HEIGHT/2);
+		paddle1Y = mousePosition.y-(PADDLE_HEIGHT/2);
 	});
 
 }
 
+function ballReset() {
+	ballSpeedX = -ballSpeedX;
+	ballX = canvas.width/2;
+	ballY = canvas.height/2;
+}
 
 function moveEverything() {
 	
 	ballX += ballSpeedX;
 	ballY += ballSpeedY;
 
-	if (ballX > canvas.width || ballX < 0) {
-		ballSpeedX = -ballSpeedX;
+	if(ballX > canvas.width) {
+		// ballSpeedX = -ballSpeedX;
+		if(ballY > paddle2Y && ballY < paddle2Y + PADDLE_HEIGHT){ // controlling if the ball touches the paddle
+			ballSpeedX = -ballSpeedX;
+		} else {
+		ballReset();
+		}
+	} 
+	if(ballX < 0){
+		// ballSpeedX = -ballSpeedX;
+		if(ballY > paddle1Y && ballY < paddle1Y + PADDLE_HEIGHT){ // controlling if the ball touches the paddle
+			ballSpeedX = -ballSpeedX;
+		} else {
+		ballReset();
+		}
 	}
-	if (ballY > canvas.height || ballY < 0) {
+	if(ballY > canvas.height){
+		ballSpeedY = -ballSpeedY;
+	}
+	if(ballY < 0) {
 		ballSpeedY = -ballSpeedY;
 	}
 }
@@ -64,7 +87,11 @@ function drawEverthing(){
 	// originaly the ball was square -> colorRect(ballX, ballY, 10, 10, 'red');
 	
 	// drawing left paddle
-	colorRect(0,paddle1Y, 10, PADDLE_HEIGHT, 'white');
+	colorRect(0,paddle1Y, PADDLE_THICKNESS, PADDLE_HEIGHT, 'white');
+
+	// drawing right paddle
+	colorRect(canvas.width - PADDLE_THICKNESS,paddle2Y, PADDLE_THICKNESS, PADDLE_HEIGHT, 'white');
+
 
 	// drawind the ball
 	colorCircle(ballX, ballY, 10, 'red');
