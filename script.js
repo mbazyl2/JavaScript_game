@@ -12,6 +12,9 @@ var paddle2Y = 250;
 const PADDLE_HEIGHT = 100;
 const PADDLE_THICKNESS = 10;
 
+var player1score = 0;
+var player2score = 0;
+
 function calculateMousePosition(evt) { 		 //evt as event
 	var rect = canvas.getBoundingClientRect();
 	var root = document.documentElement;
@@ -50,8 +53,19 @@ function ballReset() {
 	ballY = canvas.height/2;
 }
 
+function computerMovement() {
+	var paddle2YCenter = paddle2Y + (PADDLE_HEIGHT/2);
+	if(paddle2YCenter < ballY - 35) {
+		paddle2Y += 5;
+	} else if (paddle2YCenter > ballY + 35) {
+		paddle2Y -= 5;
+	}
+}
+
+
 function moveEverything() {
-	
+	computerMovement();
+
 	ballX += ballSpeedX;
 	ballY += ballSpeedY;
 
@@ -60,7 +74,8 @@ function moveEverything() {
 		if(ballY > paddle2Y && ballY < paddle2Y + PADDLE_HEIGHT){ // controlling if the ball touches the paddle
 			ballSpeedX = -ballSpeedX;
 		} else {
-		ballReset();
+			ballReset();
+			player1score++;
 		}
 	} 
 	if(ballX < 0){
@@ -68,7 +83,8 @@ function moveEverything() {
 		if(ballY > paddle1Y && ballY < paddle1Y + PADDLE_HEIGHT){ // controlling if the ball touches the paddle
 			ballSpeedX = -ballSpeedX;
 		} else {
-		ballReset();
+			ballReset();
+			player2score++;
 		}
 	}
 	if(ballY > canvas.height){
@@ -94,7 +110,13 @@ function drawEverthing(){
 
 
 	// drawind the ball
-	colorCircle(ballX, ballY, 10, 'red');
+	colorCircle(ballX, ballY, 10, 'white');
+
+	//showing score on the board (player 1)
+	canvasContext.fillText(player1score, 100, 100);
+
+	//showing score on the board
+	canvasContext.fillText(player2score, canvas.width-100, 100);
 
 }
 //
