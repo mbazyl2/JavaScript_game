@@ -127,6 +127,13 @@ function moveEverything() {
 	}
 }
 
+
+function drawNet() {
+	for( var i=0; i < canvas.height; i += 40) {
+		colorRect(canvas.width/2-1 , i, 2, 20, 'white');
+	}
+}
+
 function drawEverthing(){	
 	// drawing playground
 	colorRect(0,0,canvas.width, canvas.height, 'black');
@@ -145,6 +152,8 @@ function drawEverthing(){
 		canvasContext.fillText("Click to continue", 350, 500);
 		return;
 	}
+
+	drawNet();
 
 	// drawing ball
 	// originaly the ball was square -> colorRect(ballX, ballY, 10, 10, 'red');
