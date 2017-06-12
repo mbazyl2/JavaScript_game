@@ -73,6 +73,10 @@ function moveEverything() {
 		// ballSpeedX = -ballSpeedX;
 		if(ballY > paddle2Y && ballY < paddle2Y + PADDLE_HEIGHT){ // controlling if the ball touches the paddle
 			ballSpeedX = -ballSpeedX;
+
+			var deltaY = ballY-(paddle2Y+PADDLE_HEIGHT/2);
+			ballSpeedY = deltaY * 0.35; 
+
 		} else {
 			ballReset();
 			player1score++;
@@ -82,6 +86,10 @@ function moveEverything() {
 		// ballSpeedX = -ballSpeedX;
 		if(ballY > paddle1Y && ballY < paddle1Y + PADDLE_HEIGHT){ // controlling if the ball touches the paddle
 			ballSpeedX = -ballSpeedX;
+
+			var deltaY = ballY-(paddle1Y+PADDLE_HEIGHT/2);
+			ballSpeedY = deltaY * 0.35; 
+
 		} else {
 			ballReset();
 			player2score++;
