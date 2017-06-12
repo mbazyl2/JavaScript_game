@@ -14,6 +14,9 @@ const PADDLE_THICKNESS = 10;
 
 var player1score = 0;
 var player2score = 0;
+const WINNING_SCORE = 3;
+
+var showingWinScreen = false;
 
 function calculateMousePosition(evt) { 		 //evt as event
 	var rect = canvas.getBoundingClientRect();
@@ -48,6 +51,13 @@ window.onload = function() {
 }
 
 function ballReset() {
+
+	if(player1score >= WINNING_SCORE || player2score >= WINNING_SCORE) {
+		player1score = 0;
+		player2score = 0;
+		showingWinScreen = true;
+	}
+
 	ballSpeedX = -ballSpeedX;
 	ballX = canvas.width/2;
 	ballY = canvas.height/2;
@@ -64,6 +74,9 @@ function computerMovement() {
 
 
 function moveEverything() {
+	if(showingWinScreen){
+		return;
+	}
 	computerMovement();
 
 	ballX += ballSpeedX;
@@ -78,8 +91,8 @@ function moveEverything() {
 			ballSpeedY = deltaY * 0.35; 
 
 		} else {
+			player1score++; // must be befor ballReset() as first is scoring the point and next we reset the ball
 			ballReset();
-			player1score++;
 		}
 	} 
 	if(ballX < 0){
@@ -91,8 +104,8 @@ function moveEverything() {
 			ballSpeedY = deltaY * 0.35; 
 
 		} else {
+			player2score++; // must be befor ballReset() as first is scoring the point and next we reset the ball
 			ballReset();
-			player2score++;
 		}
 	}
 	if(ballY > canvas.height){
@@ -103,10 +116,16 @@ function moveEverything() {
 	}
 }
 
-function drawEverthing(){
+function drawEverthing(){	
 	// drawing playground
 	colorRect(0,0,canvas.width, canvas.height, 'black');
 	
+	if(showingWinScreen){
+		canvasContext.fillStyle = "white";
+		canvasContext.fillText("Click to continue", 100, 100);
+		return;
+	}
+
 	// drawing ball
 	// originaly the ball was square -> colorRect(ballX, ballY, 10, 10, 'red');
 	
